@@ -1,9 +1,13 @@
-"use client";
-
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import BlogPostClient from '@/components/blog/BlogPostClient';
+
+export async function generateStaticParams() {
+  return [
+    { slug: 'the-future-of-media-production' },
+    { slug: 'mastering-brand-storytelling' },
+    { slug: 'behind-the-scenes-video-project' },
+  ];
+}
 
 // Dummy data for a single blog post
 const dummyPost = {
@@ -48,7 +52,7 @@ const relatedPosts = [
 ];
 
 export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const router = useRouter();
+
   // In a real application, you would fetch the post data based on params.slug
   // For this example, we'll just use the dummyPost
   const post = dummyPost; // Replace with actual data fetching
@@ -57,99 +61,12 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
     return (
       <main className="bg-gray-900 text-white py-20 text-center">
         <h1 className="text-4xl font-bold">Post Not Found</h1>
-        <button onClick={() => router.back()} className="mt-8 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-          Go Back
-        </button>
+        <Link href="/blog" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+  Go Back to Blog
+</Link>
       </main>
     );
   }
 
-  return (
-    <main className="bg-gray-800 text-white py-20">
-      <div className="container mx-auto px-4 max-w-3xl">
-        <motion.h1
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-5xl font-bold text-center mb-8"
-        >
-          {post.title}
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-gray-400 text-center mb-12"
-        >
-          By {post.author} on {post.date}
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="relative w-full h-96 mb-12 rounded-lg overflow-hidden shadow-lg"
-        >
-          <Image
-            src={post.image}
-            alt={post.title}
-            layout="fill"
-            objectFit="cover"
-          />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="prose prose-invert lg:prose-xl mx-auto"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-
-        <div className="text-center mt-16">
-          <button onClick={() => router.back()} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-            Go Back to Blog
-          </button>
-        </div>
-
-        {/* Related Posts Section */}
-        <motion.section
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-20"
-        >
-          <h2 className="text-4xl font-bold text-center mb-12">Related Posts</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {relatedPosts.map((post, index) => (
-              <motion.div
-                key={post.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                className="bg-gray-800 rounded-lg shadow-lg overflow-hidden"
-              >
-                <Link href={`/blog/${post.slug}`}>
-                  <div className="relative w-full h-48">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      layout="fill"
-                      objectFit="cover"
-                      className="transition-transform duration-300 hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2 hover:text-blue-400 transition-colors duration-300">{post.title}</h3>
-                    <p className="text-gray-400 text-sm mb-3">By {post.author} on {post.date}</p>
-                    <p className="text-lg leading-relaxed">{post.excerpt}</p>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-      </div>
-    </main>
-  );
+  return <BlogPostClient post={post} relatedPosts={relatedPosts} />;
 }
