@@ -49,7 +49,7 @@ export default function ContactForm() {
 
   return (
     <div 
-      className="py-20 bg-cover bg-center relative"
+      className="py-10 bg-cover bg-center relative"
       style={{ backgroundImage: "url('/images/cservice.jpg')" }}
     >
       <div 
@@ -57,7 +57,7 @@ export default function ContactForm() {
         style={{ opacity: 0.75 }}
       ></div>
       <div className="container mx-auto px-4 relative z-10">
-        <h2 className="text-4xl font-bold text-center mb-12 text-white">Contact Us</h2>
+        <h2 className="text-4xl font-bold text-center mt-12 mb-6 text-white">Contact Us</h2>
         <motion.form
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

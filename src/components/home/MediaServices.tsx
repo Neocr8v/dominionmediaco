@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 import { FaVideo, FaCamera, FaEdit, FaBullhorn } from 'react-icons/fa'; // Example icons
 
 const services = [
@@ -33,7 +34,7 @@ const services = [
 ];
 
 export default function MediaServices() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 3000 })]);
 
   return (
     <section className="bg-gray-900 text-white py-20">
@@ -65,20 +66,6 @@ export default function MediaServices() {
               </div>
             ))}
           </div>
-        </div>
-        <div className="flex justify-center mt-8 space-x-4">
-          <button
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-            onClick={() => emblaApi && emblaApi.scrollPrev()}
-          >
-            Prev
-          </button>
-          <button
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
-            onClick={() => emblaApi && emblaApi.scrollNext()}
-          >
-            Next
-          </button>
         </div>
         <div className="text-center mt-16">
           <Link href="/services">
