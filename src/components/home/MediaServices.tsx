@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
-import { FaVideo, FaCamera, FaEdit, FaBullhorn } from 'react-icons/fa'; // Example icons
+import { FaVideo, FaCamera, FaEdit, FaBullhorn, FaCircle } from 'react-icons/fa'; // Example icons
+import { useCallback, useEffect, useState } from 'react';
 
 const services = [
   {
@@ -31,10 +32,63 @@ const services = [
     icon: <FaBullhorn className="text-red-500 text-5xl mb-4" />,
     description: 'Strategizing and executing campaigns to get your content seen by the right audience.',
   },
+  {
+    id: 5,
+    name: 'Weddings',
+    icon: <FaVideo className="text-red-500 text-5xl mb-4" />,
+    description: 'Capturing the magic of your special day with beautiful videography and photography.',
+  },
+  {
+    id: 6,
+    name: 'Birthdays & Parties',
+    icon: <FaCamera className="text-pink-500 text-5xl mb-4" />,
+    description: 'Documenting your celebrations with fun and vibrant videos and photos.',
+  },
+  {
+    id: 7,
+    name: 'Graduations',
+    icon: <FaEdit className="text-yellow-500 text-5xl mb-4" />,
+    description: 'Commemorating your academic achievements with professional photos and videos.',
+  },
+  {
+    id: 8,
+    name: 'Podcasts',
+    icon: <FaBullhorn className="text-gray-400 text-5xl mb-4" />,
+    description: 'Producing high-quality audio and video podcasts, from recording to post-production.',
+  },
+  {
+    id: 9,
+    name: 'Live Streams',
+    icon: <FaVideo className="text-teal-500 text-5xl mb-4" />,
+    description: 'Broadcasting your events, webinars, and performances to a live online audience.',
+  },
 ];
 
 export default function MediaServices() {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 3000 })]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 3000 })]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+
+  const scrollTo = useCallback((index: number) => {
+    emblaApi && emblaApi.scrollTo(index);
+  }, [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi, setSelectedIndex]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    setScrollSnaps(emblaApi.scrollSnapList());
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+    return () => {
+      emblaApi.off('select', onSelect);
+      emblaApi.off('reInit', onSelect);
+    };
+  }, [emblaApi, setScrollSnaps, onSelect]);
 
   return (
     <section className="bg-gray-900 text-white py-20">
@@ -66,6 +120,15 @@ export default function MediaServices() {
               </div>
             ))}
           </div>
+        </div>
+        <div className="flex justify-center mt-8 space-x-2">
+          {scrollSnaps.map((_, index) => (
+            <FaCircle
+              key={index}
+              className={`cursor-pointer ${index === selectedIndex ? 'text-blue-500' : 'text-gray-600'}`}
+              onClick={() => scrollTo(index)}
+            />
+          ))}
         </div>
         <div className="text-center mt-16">
           <Link href="/services">

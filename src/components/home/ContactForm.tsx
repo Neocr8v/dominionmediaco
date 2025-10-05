@@ -48,51 +48,58 @@ export default function ContactForm() {
   };
 
   return (
-    <div 
-      className="py-10 bg-cover bg-center relative"
-      style={{ backgroundImage: "url('/images/cservice.jpg')" }}
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.5 }}
+      transition={{ duration: 0.8 }}
     >
       <div 
-        className="absolute inset-0 bg-black"
-        style={{ opacity: 0.75 }}
-      ></div>
-      <div className="container mx-auto px-4 relative z-10">
-        <h2 className="text-4xl font-bold text-center mt-12 mb-6 text-white">Contact Us</h2>
-        <motion.form
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="max-w-lg mx-auto p-8 rounded-lg"
-          onSubmit={handleSubmit}
-        >
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-white font-bold mb-2">Name</label>
-            <input type="text" id="name" className="w-full px-3 py-2 border rounded-lg bg-transparent text-white" value={formData.name} onChange={handleChange} required />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-white font-bold mb-2">Email</label>
-            <input type="email" id="email" className="w-full px-3 py-2 border rounded-lg bg-transparent text-white" value={formData.email} onChange={handleChange} required />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="subject" className="block text-white font-bold mb-2">Subject</label>
-            <input type="text" id="subject" className="w-full px-3 py-2 border rounded-lg bg-transparent text-white" value={formData.subject} onChange={handleChange} required />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="message" className="block text-white font-bold mb-2">Message</label>
-            <textarea id="message" rows={5} className="w-full px-3 py-2 border rounded-lg bg-transparent text-white" value={formData.message} onChange={handleChange} required></textarea>
-          </div>
-          <div className="text-center">
-            <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg" disabled={loading}>
-              {loading ? 'Sending...' : 'Send Message'}
-            </button>
-          </div>
-          {message && (
-            <p className={`mt-4 text-center ${message.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
-              {message.text}
-            </p>
-          )}
-        </motion.form>
+        className="py-10 bg-cover bg-center relative"
+        style={{ backgroundImage: "url('/images/cservice.jpg')" }}
+      >
+        <div 
+          className="absolute inset-0 bg-black"
+          style={{ opacity: 0.75 }}
+        ></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <h2 className="text-4xl font-bold text-center mt-12 mb-6 text-white">Contact Us</h2>
+          <motion.form
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            className="max-w-lg mx-auto p-8 rounded-lg"
+            onSubmit={handleSubmit}
+          >
+            <div className="mb-4">
+              <label htmlFor="name" className="block text-white font-bold mb-2">Name</label>
+              <input type="text" id="name" className="w-full px-3 py-2 border rounded-lg bg-transparent text-white" value={formData.name} onChange={handleChange} required />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-white font-bold mb-2">Email</label>
+              <input type="email" id="email" className="w-full px-3 py-2 border rounded-lg bg-transparent text-white" value={formData.email} onChange={handleChange} required />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="subject" className="block text-white font-bold mb-2">Subject</label>
+              <input type="text" id="subject" className="w-full px-3 py-2 border rounded-lg bg-transparent text-white" value={formData.subject} onChange={handleChange} required />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="message" className="block text-white font-bold mb-2">Message</label>
+              <textarea id="message" rows={5} className="w-full px-3 py-2 border rounded-lg bg-transparent text-white" value={formData.message} onChange={handleChange} required></textarea>
+            </div>
+            <div className="text-center">
+              <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg" disabled={loading}>
+                {loading ? 'Sending...' : 'Send Message'}
+              </button>
+            </div>
+            {message && (
+              <p className={`mt-4 text-center ${message.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+                {message.text}
+              </p>
+            )}
+          </motion.form>
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
