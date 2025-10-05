@@ -81,7 +81,9 @@ export default function MediaServices() {
   useEffect(() => {
     if (!emblaApi) return;
     onSelect();
-    setScrollSnaps(emblaApi.scrollSnapList());
+    const snaps = emblaApi.scrollSnapList();
+    setScrollSnaps(snaps);
+    console.log('Scroll Snaps:', snaps); // Debugging line
     emblaApi.on('select', onSelect);
     emblaApi.on('reInit', onSelect);
     return () => {
@@ -121,11 +123,11 @@ export default function MediaServices() {
             ))}
           </div>
         </div>
-        <div className="flex justify-center mt-8 space-x-2">
+        <div className="flex justify-center mt-8 space-x-2 z-10">
           {scrollSnaps.map((_, index) => (
             <FaCircle
               key={index}
-              className={`cursor-pointer ${index === selectedIndex ? 'text-blue-500' : 'text-gray-600'}`}
+              className={`cursor-pointer ${index === selectedIndex ? 'text-blue-500' : 'text-white'}`}
               onClick={() => scrollTo(index)}
             />
           ))}
