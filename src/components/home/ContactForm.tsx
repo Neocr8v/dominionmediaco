@@ -56,7 +56,7 @@ export default function ContactForm() {
     >
       <div 
         className="py-10 bg-cover bg-center relative"
-        style={{ backgroundImage: "url('/images/csreps.jpg')" }}
+        style={{ backgroundImage: "url('/images/csrep.jpg')" }}
       >
         <div 
           className="absolute inset-0 bg-black"
