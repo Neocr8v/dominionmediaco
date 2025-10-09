@@ -16,7 +16,12 @@ export default function Header() {
     <header className="fixed top-0 left-0 w-full bg-gray-950 bg-opacity-90 text-white z-50">
       <div className="container mx-auto px-4 py-6 flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold">
-          <Image src="/images/dlogo.png" alt="Dominion Media" width={100} height={33} />
+          <div className="block md:hidden">
+            <Image src="/images/dlogo.png" alt="Dominion Media" width={80} height={26} />
+          </div>
+          <div className="hidden md:block">
+            <Image src="/images/dlogo.png" alt="Dominion Media" width={100} height={33} />
+          </div>
         </Link>
 
         {/* Desktop Navigation */}
