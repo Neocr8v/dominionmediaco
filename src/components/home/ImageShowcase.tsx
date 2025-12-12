@@ -8,8 +8,8 @@ const images = [
   { id: 2, src: '/images/Wedding-089.jpg', alt: 'Image 2' },
   { id: 3, src: '/images/Wedding-001.jpg', alt: 'Image 3' },
   { id: 4, src: '/images/Wedding-079.jpg', alt: 'Image 4' },
-  { id: 5, src: '/images/Wedding-44.jpg', alt: 'Image 5' },
-  { id: 6, src: '/images/Wedding-87.jpg', alt: 'Image 6' },
+  { id: 5, src: '/images/Wedding-0044.jpg', alt: 'Image 5' },
+  { id: 6, src: '/images/Wedding-087.jpg', alt: 'Image 6' },
 ];
 
 export default function ImageShowcase() {
