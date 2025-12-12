@@ -7,9 +7,9 @@ const images = [
   { id: 1, src: '/images/Wedding-025.jpg', alt: 'Image 1' },
   { id: 2, src: '/images/Wedding-089.jpg', alt: 'Image 2' },
   { id: 3, src: '/images/Wedding-001.jpg', alt: 'Image 3' },
-  { id: 4, src: '/images/placeholder4.jpg', alt: 'Placeholder Image 4' },
-  { id: 5, src: '/images/placeholder5.jpg', alt: 'Placeholder Image 5' },
-  { id: 6, src: '/images/placeholder6.jpg', alt: 'Placeholder Image 6' },
+  { id: 4, src: '/images/Wedding-079.jpg', alt: 'Image 4' },
+  { id: 5, src: '/images/Wedding-44.jpg', alt: 'Image 5' },
+  { id: 6, src: '/images/Wedding-87.jpg', alt: 'Image 6' },
 ];
 
 export default function ImageShowcase() {
