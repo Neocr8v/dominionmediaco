@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+export async function GET(request: Request) {
+  return NextResponse.json({ message: 'GET request successful' }, { status: 200 });
+}
+
 export async function POST(request: Request) {
   try {
     const { name, email, subject, message } = await request.json();
