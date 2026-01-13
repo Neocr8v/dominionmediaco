@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
-export async function GET(request: Request) {
-  return NextResponse.json({ message: 'GET request successful' }, { status: 200 });
-}
+export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
   try {
