@@ -3,8 +3,58 @@
 import { motion } from 'framer-motion';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import Banner from '@/components/layout/Banner';
+import { useState } from 'react';
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<{ type: string; text: string } | null>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('🟢 Form submit started');
+    console.log('🟢 Form data:', formData);
+    setLoading(true);
+    setMessage(null);
+
+    try {
+      console.log('🟢 Fetching /api/contact...');
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      console.log('🟢 Response status:', response.status);
+      const data = await response.json();
+      console.log('🟢 Response data:', data);
+
+      if (response.ok) {
+        setMessage({ type: 'success', text: data.message });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setMessage({ type: 'error', text: data.message || 'Failed to send message' });
+      }
+    } catch (error) {
+      console.error('❌ Submission error:', error);
+      setMessage({ type: 'error', text: 'An unexpected error occurred.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="bg-gray-900 text-white">
       <Banner imageUrl="/images/cservice.jpg" title="Contact Us" />
@@ -39,26 +89,67 @@ export default function ContactPage() {
             className="bg-gray-800 p-8 rounded-lg shadow-lg"
           >
             <h2 className="text-3xl font-semibold mb-6">Send Us a Message</h2>
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="contactName" className="block text-lg font-medium mb-2">Your Name</label>
-                <input type="text" id="contactName" className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="John Doe" />
+                <label htmlFor="name" className="block text-lg font-medium mb-2">Your Name</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  placeholder="John Doe"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
               </div>
               <div>
-                <label htmlFor="contactEmail" className="block text-lg font-medium mb-2">Your Email</label>
-                <input type="email" id="contactEmail" className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="john.doe@example.com" />
+                <label htmlFor="email" className="block text-lg font-medium mb-2">Your Email</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  placeholder="john.doe@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
               </div>
               <div>
-                <label htmlFor="contactSubject" className="block text-lg font-medium mb-2">Subject</label>
-                <input type="text" id="contactSubject" className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Inquiry about services" />
+                <label htmlFor="subject" className="block text-lg font-medium mb-2">Subject</label>
+                <input 
+                  type="text" 
+                  id="subject" 
+                  className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  placeholder="Inquiry about services"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                />
               </div>
               <div>
-                <label htmlFor="contactMessage" className="block text-lg font-medium mb-2">Message</label>
-                <textarea id="contactMessage" rows={6} className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your message here..."></textarea>
+                <label htmlFor="message" className="block text-lg font-medium mb-2">Message</label>
+                <textarea 
+                  id="message" 
+                  rows={6} 
+                  className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                  placeholder="Your message here..."
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                ></textarea>
               </div>
-              <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-                Send Message
+              <button 
+                type="submit" 
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300"
+                disabled={loading}
+              >
+                {loading ? 'Sending...' : 'Send Message'}
               </button>
+              {message && (
+                <p className={`mt-4 text-center text-lg ${message.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+                  {message.text}
+                </p>
+              )}
             </form>
           </motion.div>
         </div>
