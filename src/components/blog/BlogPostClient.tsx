@@ -6,16 +6,16 @@ import Link from 'next/link';
 
 interface BlogPostClientProps {
   post: {
-    id: number;
+    _id: string;
     title: string;
     slug: string;
     date: string;
     author: string;
     image: string;
-    content: string;
+    content: React.ReactNode;
   };
   relatedPosts: Array<{
-    id: number;
+    _id: string;
     title: string;
     slug: string;
     date: string;
@@ -65,13 +65,14 @@ export default function BlogPostClient({ post, relatedPosts }: BlogPostClientPro
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
           className="prose prose-invert lg:prose-xl mx-auto"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
+        >
+          {post.content}
+        </motion.div>
 
         <div className="text-center mt-16">
           <Link href="/blog" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-  Go Back to Blog
-</Link>
+            Go Back to Blog
+          </Link>
         </div>
 
         {/* Related Posts Section */}
@@ -85,7 +86,7 @@ export default function BlogPostClient({ post, relatedPosts }: BlogPostClientPro
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {relatedPosts.map((post, index) => (
               <motion.div
-                key={post.id}
+                key={post._id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
